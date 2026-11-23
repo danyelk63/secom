@@ -1,0 +1,44 @@
+<h2>Hipótesis 2</h2>
+<p class="lead">
+  H₀: p₁ = p₂ vs. H₁: p₁ ≠ p₂. ¿La tasa de fallos cambió entre el primer y el segundo periodo?
+</p>
+
+<div class="split">
+  @let t = test();
+  <div class="panel controls">
+    <label>
+      <span>Inicio del periodo 2 <output>{{ fmtDate(t.firstOfSecond) }}</output></span>
+      <input type="range" [min]="minGroup" [max]="data().total - minGroup" [(ngModel)]="cut" />
+    </label>
+    <button class="chip" type="button" (click)="resetCut()">Mitad exacta</button>
+    <label>
+      <span>Nivel de significancia α</span>
+      <select [(ngModel)]="alpha">
+        <option [ngValue]="0.1">0,10</option>
+        <option [ngValue]="0.05">0,05</option>
+        <option [ngValue]="0.01">0,01</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="panel">
+    <app-chart [config]="chart()" />
+    <div class="stats-grid">
+      <app-stat [label]="'Periodo 1 (hasta ' + fmtDate(t.lastOfFirst) + ')'" [value]="t.x1 + '/' + t.n1 + ' = ' + fmtPct(t.p1)" />
+      <app-stat [label]="'Periodo 2 (desde ' + fmtDate(t.firstOfSecond) + ')'" [value]="t.x2 + '/' + t.n2 + ' = ' + fmtPct(t.p2)" />
+      <app-stat label="p combinada" [value]="fmtNum(t.pooled, 4)" />
+      <app-stat label="Estadístico z" [value]="fmtNum(t.z, 3)" highlight />
+      <app-stat label="Valor crítico" [value]="'±' + fmtNum(t.zc, 3)" />
+      <app-stat label="Valor p" [value]="fmtProb(t.pValue)" highlight />
+    </div>
+    <p class="verdict" [class.reject]="t.reject">
+      @if (t.reject) {
+        Valor p = {{ fmtProb(t.pValue) }} &lt; α = {{ fmtNum(alpha(), 2) }}: <b>se rechaza H₀</b>.
+        La tasa de fallos cambió entre los dos periodos.
+      } @else {
+        Valor p = {{ fmtProb(t.pValue) }} ≥ α = {{ fmtNum(alpha(), 2) }}: <b>no se rechaza H₀</b>.
+        No hay evidencia de que la tasa de fallos haya cambiado.
+      }
+    </p>
+  </div>
+</div>

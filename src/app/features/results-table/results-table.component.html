@@ -1,0 +1,50 @@
+<h2>Resultados por tamaño de lote</h2>
+<p class="lead">
+  Evento: el lote supera la meta de fallos, es decir P(X &gt; {{ fmtNum(goalPct(), 1) }} % · n), con p = p̂ de SECOM.
+  Se compara la probabilidad exacta con la normal con corrección por continuidad.
+</p>
+
+<div class="panel">
+  <div class="inline-controls">
+    <label>
+      <span>Tamaños n (separados por coma)</span>
+      <input type="text" [(ngModel)]="sizesText" />
+    </label>
+    <label>
+      <span>Meta de fallos (%)</span>
+      <input type="number" min="0.1" max="50" step="0.1" [(ngModel)]="goalPct" />
+    </label>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>n</th><th>np</th><th>n(1−p)</th><th>Evento</th><th>P exacta</th>
+          <th>P normal (corr.)</th><th>Error</th><th>Error relativo</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of rows(); track $index) {
+          <tr [class.warn]="!r.ok">
+            <td>{{ r.n }}{{ r.ok ? '' : ' ⚠' }}</td>
+            <td>{{ fmtNum(r.np, 2) }}</td>
+            <td>{{ fmtNum(r.nq, 2) }}</td>
+            <td>P(X ≥ {{ r.threshold }})</td>
+            <td>{{ fmtProb(r.exact) }}</td>
+            <td>{{ fmtProb(r.withCC) }}</td>
+            <td>{{ fmtProb(r.error) }}</td>
+            <td>{{ fmtPct(r.relError, 1) }}</td>
+          </tr>
+        } @empty {
+          <tr><td colspan="8">Escribe al menos un tamaño de lote válido.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="note">⚠ = no se cumple np ≥ 5 y n(1−p) ≥ 5.</p>
+</div>
+
+<div class="panel">
+  <h3>Error absoluto de la aproximación según n</h3>
+  <app-chart [config]="errorChart()" />
+</div>

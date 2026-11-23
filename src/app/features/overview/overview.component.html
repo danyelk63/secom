@@ -1,0 +1,19 @@
+<h2>Base de datos</h2>
+<p class="lead">
+  SECOM (UCI): unidades de un proceso de fabricación de semiconductores. Cada una tiene resultado
+  <b>pasa/falla</b>, fecha de prueba y {{ data().nFeatures }} mediciones de sensores.
+</p>
+
+<div class="kpis">
+  @for (k of kpis(); track k.label) {
+    <div class="kpi">
+      <div class="kpi-value" [class.small]="k.small">{{ k.value }}</div>
+      <div class="kpi-label">{{ k.label }}</div>
+    </div>
+  }
+</div>
+
+<div class="panel">
+  <h3>Producción y tasa de fallos por semana</h3>
+  <app-chart class="tall" [config]="weeklyChart()" />
+</div>

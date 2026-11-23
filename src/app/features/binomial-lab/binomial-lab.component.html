@@ -1,0 +1,61 @@
+<h2>Laboratorio: binomial vs normal</h2>
+<p class="lead">
+  X ~ Bin(n, p) cuenta las unidades falladas en un lote de n. Mueve los valores y observa cuándo la curva
+  normal N(np, np(1−p)) se ajusta a las barras.
+</p>
+
+<div class="split">
+  <div class="panel controls">
+    <label>
+      <span>Tamaño del lote <b>n</b> <output>{{ n() }}</output></span>
+      <input type="range" min="1" max="500" [(ngModel)]="n" />
+    </label>
+    <label>
+      <span>Probabilidad de fallo <b>p</b> <output>{{ fmtNum(p(), 3) }}</output></span>
+      <input type="range" min="0.001" max="0.5" step="0.001" [(ngModel)]="p" />
+    </label>
+    <button class="chip" type="button" (click)="useSecomP()">Usar p̂ de SECOM</button>
+    <label>
+      <span>Evento</span>
+      <select [(ngModel)]="kind">
+        <option value="le">P(X ≤ k)</option>
+        <option value="ge">P(X ≥ k)</option>
+        <option value="eq">P(X = k)</option>
+        <option value="between">P(a ≤ X ≤ k)</option>
+      </select>
+    </label>
+    @if (kind() === 'between') {
+      <label>
+        <span>Límite inferior <b>a</b> <output>{{ aClamped() }}</output></span>
+        <input type="range" min="0" [max]="n()" [(ngModel)]="a" />
+      </label>
+    }
+    <label>
+      <span>{{ kind() === 'between' ? 'Límite superior' : 'Valor' }} <b>k</b> <output>{{ kClamped() }}</output></span>
+      <input type="range" min="0" [max]="n()" [(ngModel)]="k" />
+    </label>
+    <label class="check">
+      <input type="checkbox" [(ngModel)]="continuity" /> Corrección por continuidad (±0,5)
+    </label>
+  </div>
+
+  <div class="panel">
+    <app-chart class="tall" [config]="chart()" />
+    <div class="stats-grid">
+      <app-stat label="Media μ = np" [value]="fmtNum(mu(), 3)" />
+      <app-stat label="Desv. σ = √(np(1−p))" [value]="fmtNum(sigma(), 3)" />
+      <app-stat [label]="event().label + ' exacta'" [value]="fmtProb(result().exact)" highlight />
+      <app-stat [label]="'Normal ' + (continuity() ? 'con' : 'sin') + ' corrección'" [value]="fmtProb(result().approx)" highlight />
+      <app-stat label="Error absoluto" [value]="fmtProb(result().error)" />
+      <app-stat [label]="'Normal ' + (continuity() ? 'sin' : 'con') + ' corrección'" [value]="fmtProb(result().other)" />
+    </div>
+    <div class="badges">
+      @let c = conditions();
+      <span class="badge" [class.ok]="c.okNp">np = {{ fmtNum(c.np, 2) }} {{ c.okNp ? '≥' : '<' }} 5</span>
+      <span class="badge" [class.ok]="c.okNq">n(1−p) = {{ fmtNum(c.nq, 2) }} {{ c.okNq ? '≥' : '<' }} 5</span>
+      <span class="badge" [class.ok]="c.okNp && c.okNq">
+        {{ c.okNp && c.okNq ? 'La aproximación es válida' : 'Se necesita n ≥ ' + c.minN }}
+      </span>
+    </div>
+  </div>
+</div>

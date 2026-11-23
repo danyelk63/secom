@@ -1,0 +1,38 @@
+<div class="grid-bg" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Aproximación normal<br />a la binomial</h1>
+    <p class="subtitle">Aplicación a datos de fallos en manufactura de semiconductores (SECOM)</p>
+    <nav class="tabs">
+      @for (s of sections; track s.id) {
+        <a [href]="'#' + s.id">{{ s.label }}</a>
+      }
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  @if (data(); as d) {
+    <section id="datos"><app-overview [data]="d" /></section>
+    <section id="laboratorio"><app-binomial-lab [data]="d" /></section>
+    <section id="resultados"><app-results-table [data]="d" /></section>
+    <section id="muestreo"><app-sampling [data]="d" /></section>
+    <section id="h1"><app-hypothesis-one [data]="d" /></section>
+    <section id="h2"><app-hypothesis-two [data]="d" /></section>
+    <section id="sensores"><app-sensors [data]="d" /></section>
+
+    <div class="panel conclusion">
+      La normal es una buena aproximación, <b>si se cumplen sus condiciones</b>: np ≥ 5 y n(1 − p) ≥ 5.
+    </div>
+  } @else {
+    <p class="loading">Cargando datos de SECOM…</p>
+  }
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>{{ authors.join(' · ') }}</p>
+    <p class="muted">Datos: McCann &amp; Johnston (2008), SECOM, UCI Machine Learning Repository.</p>
+  </div>
+</footer>
