@@ -2,6 +2,8 @@
 
 Aplicación Angular para explorar los datos de fallos de SECOM (UCI, dataset 179) y la aproximación normal a la binomial.
 
+**En vivo:** https://secom-theta.vercel.app (se despliega en Vercel con cada push a `main`).
+
 ## Requisitos
 
 - Node 22.12 o superior (Angular 20)
