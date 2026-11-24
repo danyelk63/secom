@@ -36,11 +36,9 @@ shared/
 features/
   overview/              indicadores y fallos por semana
   binomial-lab/          laboratorio interactivo binomial vs normal
-  results-table/         tabla por tamaño de lote y error de la aproximación
-  sampling/              lotes muestreados de los datos reales
+  results-table/         tabla por tamaño de lote
   hypothesis-one/        H₀: p = p₀
   hypothesis-two/        H₀: p₁ = p₂ (primer vs segundo periodo)
-  sensors/               explorador de los 590 sensores
 ```
 
 ## Publicar

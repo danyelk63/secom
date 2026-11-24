@@ -33,12 +33,23 @@ export class BinomialLabComponent {
     this.p.set(+this.data().pHat.toFixed(3));
   }
 
-  // k y a nunca pueden superar n
-  readonly kClamped = computed(() => Math.min(this.k(), this.n()));
-  readonly aClamped = computed(() => Math.min(this.a(), this.n()));
-
   readonly mu = computed(() => this.n() * this.p());
   readonly sigma = computed(() => Math.sqrt(this.n() * this.p() * (1 - this.p())));
+
+  /** Rango de k que muestra la gráfica (μ ± 5σ, acotado a [0, n]). */
+  readonly range = computed(() => {
+    const n = this.n(), mu = this.mu(), sd = this.sigma();
+    let x0 = Math.max(0, Math.floor(mu - 5 * sd) - 1);
+    let x1 = Math.min(n, Math.ceil(mu + 5 * sd) + 1);
+    if (x1 - x0 < 12) { x0 = Math.max(0, x0 - 6); x1 = Math.min(n, x1 + 6); }
+    return { x0, x1 };
+  });
+
+  /** Límite de los sliders de k y a: el máximo de la gráfica, cambia con n y p. */
+  readonly kMax = computed(() => this.range().x1);
+  readonly kClamped = computed(() => Math.min(this.k(), this.kMax()));
+  readonly aClamped = computed(() => Math.min(this.a(), this.kMax()));
+
   private readonly pmf = computed(() => binomPmf(this.n(), this.p()));
 
   readonly event = computed(() => {
@@ -64,7 +75,7 @@ export class BinomialLabComponent {
     const withoutCC = normalApproxRange(n, p, lo, hi, false);
     const approx = this.continuity() ? withCC : withoutCC;
     const other = this.continuity() ? withoutCC : withCC;
-    return { exact, approx, other, error: Math.abs(exact - approx) };
+    return { exact, approx, other };
   });
 
   readonly conditions = computed(() => {
@@ -79,11 +90,9 @@ export class BinomialLabComponent {
   });
 
   readonly chart = computed<ChartConfig>(() => {
-    const n = this.n(), mu = this.mu(), sd = this.sigma(), pmf = this.pmf();
+    const mu = this.mu(), sd = this.sigma(), pmf = this.pmf();
     const { lo, hi } = this.event();
-    let x0 = Math.max(0, Math.floor(mu - 5 * sd) - 1);
-    let x1 = Math.min(n, Math.ceil(mu + 5 * sd) + 1);
-    if (x1 - x0 < 12) { x0 = Math.max(0, x0 - 6); x1 = Math.min(n, x1 + 6); }
+    const { x0, x1 } = this.range();
 
     const bars: { x: number; y: number }[] = [];
     const colors: string[] = [];

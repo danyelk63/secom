@@ -20,7 +20,7 @@
       <thead>
         <tr>
           <th>n</th><th>np</th><th>n(1−p)</th><th>Evento</th><th>P exacta</th>
-          <th>P normal (corr.)</th><th>Error</th><th>Error relativo</th>
+          <th>P normal (corr.)</th><th>Error relativo</th>
         </tr>
       </thead>
       <tbody>
@@ -32,19 +32,13 @@
             <td>P(X ≥ {{ r.threshold }})</td>
             <td>{{ fmtProb(r.exact) }}</td>
             <td>{{ fmtProb(r.withCC) }}</td>
-            <td>{{ fmtProb(r.error) }}</td>
             <td>{{ fmtPct(r.relError, 1) }}</td>
           </tr>
         } @empty {
-          <tr><td colspan="8">Escribe al menos un tamaño de lote válido.</td></tr>
+          <tr><td colspan="7">Escribe al menos un tamaño de lote válido.</td></tr>
         }
       </tbody>
     </table>
   </div>
   <p class="note">⚠ = no se cumple np ≥ 5 y n(1−p) ≥ 5.</p>
-</div>
-
-<div class="panel">
-  <h3>Error absoluto de la aproximación según n</h3>
-  <app-chart [config]="errorChart()" />
 </div>

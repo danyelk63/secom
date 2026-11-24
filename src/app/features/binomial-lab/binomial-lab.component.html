@@ -27,12 +27,12 @@
     @if (kind() === 'between') {
       <label>
         <span>Límite inferior <b>a</b> <output>{{ aClamped() }}</output></span>
-        <input type="range" min="0" [max]="n()" [(ngModel)]="a" />
+        <input type="range" min="0" [max]="kMax()" [(ngModel)]="a" />
       </label>
     }
     <label>
       <span>{{ kind() === 'between' ? 'Límite superior' : 'Valor' }} <b>k</b> <output>{{ kClamped() }}</output></span>
-      <input type="range" min="0" [max]="n()" [(ngModel)]="k" />
+      <input type="range" min="0" [max]="kMax()" [(ngModel)]="k" />
     </label>
     <label class="check">
       <input type="checkbox" [(ngModel)]="continuity" /> Corrección por continuidad (±0,5)
@@ -46,7 +46,6 @@
       <app-stat label="Desv. σ = √(np(1−p))" [value]="fmtNum(sigma(), 3)" />
       <app-stat [label]="event().label + ' exacta'" [value]="fmtProb(result().exact)" highlight />
       <app-stat [label]="'Normal ' + (continuity() ? 'con' : 'sin') + ' corrección'" [value]="fmtProb(result().approx)" highlight />
-      <app-stat label="Error absoluto" [value]="fmtProb(result().error)" />
       <app-stat [label]="'Normal ' + (continuity() ? 'sin' : 'con') + ' corrección'" [value]="fmtProb(result().other)" />
     </div>
     <div class="badges">

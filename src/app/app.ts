@@ -5,8 +5,6 @@ import { HypothesisOneComponent } from './features/hypothesis-one/hypothesis-one
 import { HypothesisTwoComponent } from './features/hypothesis-two/hypothesis-two.component';
 import { OverviewComponent } from './features/overview/overview.component';
 import { ResultsTableComponent } from './features/results-table/results-table.component';
-import { SamplingComponent } from './features/sampling/sampling.component';
-import { SensorsComponent } from './features/sensors/sensors.component';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +12,8 @@ import { SensorsComponent } from './features/sensors/sensors.component';
     OverviewComponent,
     BinomialLabComponent,
     ResultsTableComponent,
-    SamplingComponent,
     HypothesisOneComponent,
     HypothesisTwoComponent,
-    SensorsComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -30,10 +26,8 @@ export class App {
     { id: 'datos', label: 'Datos' },
     { id: 'laboratorio', label: 'Laboratorio' },
     { id: 'resultados', label: 'Resultados' },
-    { id: 'muestreo', label: 'Muestreo real' },
     { id: 'h1', label: 'Hipótesis 1' },
     { id: 'h2', label: 'Hipótesis 2' },
-    { id: 'sensores', label: 'Sensores' },
   ];
 
   protected readonly authors = [
