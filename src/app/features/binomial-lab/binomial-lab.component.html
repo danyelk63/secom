@@ -28,11 +28,13 @@
       <label>
         <span>Límite inferior <b>a</b> <output>{{ aClamped() }}</output></span>
         <input type="range" min="0" [max]="kMax()" [(ngModel)]="a" />
+        <span class="range-ends"><span>0</span><span>{{ kMax() }}</span></span>
       </label>
     }
     <label>
       <span>{{ kind() === 'between' ? 'Límite superior' : 'Valor' }} <b>k</b> <output>{{ kClamped() }}</output></span>
       <input type="range" min="0" [max]="kMax()" [(ngModel)]="k" />
+        <span class="range-ends"><span>0</span><span>{{ kMax() }}</span></span>
     </label>
     <label class="check">
       <input type="checkbox" [(ngModel)]="continuity" /> Corrección por continuidad (±0,5)
