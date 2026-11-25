@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SecomDataService } from './core/secom-data.service';
 import { BinomialLabComponent } from './features/binomial-lab/binomial-lab.component';
+import { CasesComponent } from './features/cases/cases.component';
 import { HypothesisOneComponent } from './features/hypothesis-one/hypothesis-one.component';
 import { HypothesisTwoComponent } from './features/hypothesis-two/hypothesis-two.component';
 import { OverviewComponent } from './features/overview/overview.component';
@@ -11,6 +12,7 @@ import { ResultsTableComponent } from './features/results-table/results-table.co
   imports: [
     OverviewComponent,
     BinomialLabComponent,
+    CasesComponent,
     ResultsTableComponent,
     HypothesisOneComponent,
     HypothesisTwoComponent,
@@ -25,6 +27,7 @@ export class App {
   protected readonly sections = [
     { id: 'datos', label: 'Datos' },
     { id: 'laboratorio', label: 'Laboratorio' },
+    { id: 'casos', label: 'Casos' },
     { id: 'resultados', label: 'Resultados' },
     { id: 'h1', label: 'Hipótesis 1' },
     { id: 'h2', label: 'Hipótesis 2' },

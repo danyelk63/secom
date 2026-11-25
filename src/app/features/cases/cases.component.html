@@ -1,0 +1,42 @@
+@let pr = params();
+<h2>Casos: P(X = 0) y P(5 ≤ X ≤ 8)</h2>
+<p class="lead">
+  Dos eventos para un lote de <b>n = {{ pr.n }}</b> unidades con p = p̂ de SECOM = {{ fmtNum(pr.p, 4) }}.
+  μ = np = {{ fmtNum(pr.mu, 2) }}, σ = {{ fmtNum(pr.sd, 2) }}, np = {{ fmtNum(pr.np, 2) }} y
+  n(1−p) = {{ fmtNum(pr.nq, 2) }}.
+</p>
+
+<div class="panel inline-controls">
+  <label>
+    <span>Tamaño del lote n</span>
+    <input type="number" min="10" max="500" step="1" [(ngModel)]="nInput" />
+  </label>
+</div>
+
+<div class="split">
+  @for (c of cases(); track c.id) {
+    <div class="panel">
+      <h3>{{ c.label }}</h3>
+      <p><b>Hipótesis:</b> {{ c.hypothesis }}</p>
+      <app-chart [config]="c.chart" />
+      <div class="stats-grid">
+        <app-stat [label]="c.label + ' exacta'" [value]="fmtProb(c.exact)" highlight />
+        <app-stat label="Normal con corrección" [value]="fmtProb(c.approx)" highlight />
+        <app-stat label="Valores z" [value]="'P(' + fmtNum(c.zLo, 2) + ' ≤ Z ≤ ' + fmtNum(c.zHi, 2) + ')'" />
+      </div>
+      <p class="note">
+        Normal: P({{ fmtNum(c.lo - 0.5, 1) }} ≤ X ≤ {{ fmtNum(c.hi + 0.5, 1) }}) con corrección por continuidad.
+      </p>
+      <p class="verdict" [class.reject]="!c.good">
+        <b>Conclusión:</b>
+        @if (c.good) {
+          la normal da {{ fmtProb(c.approx) }} frente a {{ fmtProb(c.exact) }} exacta (diferencia de
+          {{ fmtProb(c.diff) }}): la aproximación funciona bien.
+        } @else {
+          la normal da {{ fmtProb(c.approx) }} frente a {{ fmtProb(c.exact) }} exacta, unas
+          {{ fmtNum(c.ratio, 1) }} veces el valor real: en esta zona la aproximación no es confiable.
+        }
+      </p>
+    </div>
+  }
+</div>

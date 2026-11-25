@@ -36,6 +36,7 @@ shared/
 features/
   overview/              indicadores y fallos por semana
   binomial-lab/          laboratorio interactivo binomial vs normal
+  cases/                 P(X = 0) y P(5 ≤ X ≤ 8) con su hipótesis
   results-table/         tabla por tamaño de lote
   hypothesis-one/        H₀: p = p₀
   hypothesis-two/        H₀: p₁ = p₂ (primer vs segundo periodo)
