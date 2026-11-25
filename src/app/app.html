@@ -4,6 +4,10 @@
   <div class="wrap">
     <h1>Aproximación normal<br />a la binomial</h1>
     <p class="subtitle">Aplicación a datos de fallos en manufactura de semiconductores (SECOM)</p>
+    <div class="dataset">
+      <a class="download" href="https://archive.ics.uci.edu/static/public/179/secom.zip" download>⬇ Descargar dataset SECOM (.zip)</a>
+      <a class="source" href="https://archive.ics.uci.edu/dataset/179/secom" target="_blank" rel="noopener">Ver en UCI Machine Learning Repository ↗</a>
+    </div>
     <nav class="tabs">
       @for (s of sections; track s.id) {
         <a [href]="'#' + s.id">{{ s.label }}</a>
